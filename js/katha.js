@@ -179,6 +179,10 @@ function loadKathaAudio(data) {
   const base_url = 'https://www.gurmatveechar.com/audios';
   const path = '/Katha/01_Puratan_Katha/Sant_Gurbachan_Singh_%28Bhindran_wale%29/Guru_Granth_Sahib_Larivaar_Katha/';
   currentAudioUrl = `${base_url}${path}${endpoint}.mp3`;
+  if (typeof localBoostMode !== 'undefined' && localBoostMode) {
+    setBoostStatus('Boost mode ON hai — nava track sunan layi pehle usdi file download karke load karo, ja "Exit boost mode" dabao.');
+    return;
+  }
   audioPlayer.src = currentAudioUrl;
   audioPlayer.load();
 }
@@ -189,6 +193,10 @@ function loadSehajPaathAudio() {
   const base_url = 'https://media.gursevak.com/media/';
   const path = 'Sehaj_Paath_Pagewise/Sehaj_Paath_16kbps/';
   currentAudioUrl = `${base_url}${path}${ang}.mp3`;
+  if (typeof localBoostMode !== 'undefined' && localBoostMode) {
+    setBoostStatus('Boost mode ON hai — nava track sunan layi pehle usdi file download karke load karo, ja "Exit boost mode" dabao.');
+    return;
+  }
   audioPlayer.src = currentAudioUrl;
   audioPlayer.load();
 }
@@ -344,88 +352,33 @@ document.getElementById('uploadTags').addEventListener('change', async (event) =
 
 exportTaggedBtn.onclick = exportTagged;
 exportFlatBtn.onclick = exportFlat;
-
-// ---------- Volume Booster (VLC style, 100%–300%) ----------
-// Web Audio gain can push volume past 100%, BUT a cross-origin audio
-// stream without CORS permission is silently zeroed by the browser when
-// routed through Web Audio. So before touching the main player, we PROBE
-// the current track with a throwaway element + analyser. Only if real
-// signal comes through do we route the main player through the gain
-// chain. The main player's normal audio can therefore never be silenced
-// by the booster.
+// ---------- Volume Booster (VLC style, 100%–300%) — OUR-SIDE method ----------
+// The audio sites give the browser no permission to touch their stream
+// (verified live: fetch is CORS-blocked, no-cors downloads are unreadable,
+// Web Audio routing of the stream is silently zeroed). So boost works on
+// a FULLY DOWNLOADED LOCAL FILE instead — the stream is never touched:
+//   1. Download the track with the audio player's own ⋮ menu (Download).
+//   2. Load that file here with the file button (it never leaves the device).
+//   3. The local file plays through a Web Audio gain chain: 100%–300%.
+// Tagging, exports etc. work exactly the same in boost mode.
 let currentAudioUrl = '';
 let boostCtx = null;
 let boostGain = null;
-let boostActive = false;
-let boostProbeResult = null; // null = not probed, true/false per host
-let boostProbeHost = '';
+let boostChainBuilt = false;
+let localBoostMode = false;
 
 const boostSlider = document.getElementById('boostSlider');
 const boostLabel = document.getElementById('boostLabel');
 const boostStatus = document.getElementById('boostStatus');
 const boostReset = document.getElementById('boostReset');
+const boostFileBtn = document.getElementById('boostFileBtn');
+const boostFileInput = document.getElementById('boostFileInput');
+const boostExitBtn = document.getElementById('boostExitBtn');
 
 function setBoostStatus(msg) { if (boostStatus) boostStatus.textContent = msg; }
 
-async function probeBoostable(url) {
-  const host = new URL(url).host;
-  if (boostProbeResult !== null && boostProbeHost === host) return boostProbeResult;
-  boostProbeHost = host;
-  boostProbeResult = await new Promise(resolve => {
-    const AC = window.AudioContext || window.webkitAudioContext;
-    if (!AC) { resolve(false); return; }
-    const ctx = new AC();
-    const el = new Audio();
-    el.preload = 'auto';
-    el.src = url;
-    let srcNode;
-    try {
-      srcNode = ctx.createMediaElementSource(el);
-    } catch (e) { ctx.close(); resolve(false); return; }
-    const analyser = ctx.createAnalyser();
-    analyser.fftSize = 2048;
-    const mute = ctx.createGain();
-    mute.gain.value = 0;
-    srcNode.connect(analyser);
-    analyser.connect(mute);
-    mute.connect(ctx.destination);
-    const buf = new Float32Array(analyser.fftSize);
-    let maxPeak = 0;
-    let samples = 0;
-    const timer = setInterval(() => {
-      analyser.getFloatTimeDomainData(buf);
-      for (let i = 0; i < buf.length; i++) {
-        const v = Math.abs(buf[i]);
-        if (v > maxPeak) maxPeak = v;
-      }
-      samples++;
-      if (samples >= 12) { // ~3 seconds of signal checks
-        clearInterval(timer);
-        el.pause();
-        ctx.close().catch(() => {});
-        resolve(maxPeak > 0.001);
-      }
-    }, 250);
-    el.addEventListener('loadedmetadata', () => {
-      try { el.currentTime = Math.min(30, (el.duration || 60) / 3); } catch (e) {}
-      el.play().catch(() => {});
-    }, { once: true });
-    el.addEventListener('error', () => {
-      clearInterval(timer);
-      ctx.close().catch(() => {});
-      resolve(false);
-    }, { once: true });
-    setTimeout(() => { // absolute cap
-      clearInterval(timer);
-      try { el.pause(); ctx.close(); } catch (e) {}
-      resolve(maxPeak > 0.001);
-    }, 9000);
-  });
-  return boostProbeResult;
-}
-
-function enableBoostChain() {
-  if (boostActive) return true;
+function buildBoostChain() {
+  if (boostChainBuilt) return true;
   const AC = window.AudioContext || window.webkitAudioContext;
   if (!AC) return false;
   try {
@@ -438,49 +391,58 @@ function enableBoostChain() {
     srcNode.connect(boostGain);
     boostGain.connect(comp);
     comp.connect(boostCtx.destination);
-    boostActive = true;
+    boostChainBuilt = true;
     return true;
   } catch (e) {
     return false;
   }
 }
 
-let boostBusy = false;
 async function applyBoost() {
   const pct = parseInt(boostSlider.value, 10);
   boostLabel.textContent = `${pct}%`;
-  if (pct <= 100) {
-    if (boostActive && boostGain) boostGain.gain.value = 1;
-    if (!boostActive) setBoostStatus('');
-    else setBoostStatus('Boost: 100% (normal)');
+  if (!localBoostMode) {
+    if (pct > 100) {
+      setBoostStatus('Boost layi pehle: (1) player de ⋮ menu ton eh track Download karo, (2) "Load downloaded track" button naal oh file select karo. Phir boost lag jayega — file tuhade phone te hi rehndi hai, stream nu kujh nahi hunda.');
+      boostSlider.value = 100;
+      boostLabel.textContent = '100%';
+    } else {
+      setBoostStatus('');
+    }
     return;
   }
-  if (boostActive) {
-    if (boostCtx.state === 'suspended') await boostCtx.resume();
-    boostGain.gain.value = pct / 100;
-    setBoostStatus(`Boost active: ${pct}%`);
+  if (boostCtx && boostCtx.state === 'suspended') await boostCtx.resume();
+  if (boostGain) boostGain.gain.value = pct / 100;
+  setBoostStatus(pct > 100 ? `Boost active: ${pct}% (local file)` : 'Local file loaded — boost 100% (normal)');
+}
+
+function loadLocalTrackFile(file) {
+  if (!file) return;
+  const wasPlaying = !audioPlayer.paused;
+  const resumeAt = audioPlayer.currentTime || 0;
+  const blobUrl = URL.createObjectURL(file);
+  // Build the gain chain ONLY while a local (blob) file is the source —
+  // a blob is same-origin, so Web Audio can boost it safely.
+  audioPlayer.src = blobUrl;
+  audioPlayer.load();
+  if (!buildBoostChain()) {
+    setBoostStatus('Is browser vich Web Audio support nahi — boost nahi lag sakda.');
     return;
   }
-  if (boostBusy || !currentAudioUrl) return;
-  boostBusy = true;
-  setBoostStatus('Checking if this audio can be boosted…');
-  const ok = await probeBoostable(currentAudioUrl);
-  boostBusy = false;
-  if (ok && enableBoostChain()) {
-    if (boostCtx.state === 'suspended') await boostCtx.resume();
-    boostGain.gain.value = pct / 100;
-    setBoostStatus(`Boost active: ${pct}%`);
-  } else {
-    boostSlider.value = 100;
-    boostLabel.textContent = '100%';
-    setBoostStatus('Boost blocked: this audio site (gurmatveechar / gursevak) does not give the browser permission to boost its stream — normal volume only. A small proxy is needed to unlock boost for these tracks.');
-  }
+  localBoostMode = true;
+  if (boostExitBtn) boostExitBtn.style.display = '';
+  audioPlayer.addEventListener('loadedmetadata', () => {
+    try { audioPlayer.currentTime = resumeAt; } catch (e) {}
+    applyBoost();
+    if (wasPlaying) audioPlayer.play().catch(() => {});
+  }, { once: true });
+  setBoostStatus(`Local file loaded: ${file.name} — hun slider naal boost karo.`);
 }
 
 if (boostSlider) {
   boostSlider.addEventListener('input', applyBoost);
-  boostReset.addEventListener('click', () => {
-    boostSlider.value = 100;
-    applyBoost();
-  });
+  boostReset.addEventListener('click', () => { boostSlider.value = 100; applyBoost(); });
+  boostFileBtn.addEventListener('click', () => boostFileInput.click());
+  boostFileInput.addEventListener('change', () => loadLocalTrackFile(boostFileInput.files[0]));
+  boostExitBtn.addEventListener('click', () => location.reload());
 }

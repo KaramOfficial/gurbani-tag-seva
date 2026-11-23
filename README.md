@@ -26,3 +26,14 @@ that the timestamper stripped).
 **Use:** pick Source + Ang, Load, play the track, press **Tag** as each
 tukh starts. Export Tagged / Export Flat download the timestamp CSVs;
 Import Flat reloads a flat file.
+
+**Volume booster (VLC style, 100%–300%):** the audio hosts give the
+browser no permission to touch their streams (verified live 2026-11-23:
+fetch is CORS-blocked, no-cors downloads are unreadable, and routing the
+stream through Web Audio is silently zeroed by the browser). So boost
+works entirely on our side: download the track with the player's own ⋮
+menu, load the file with "Load downloaded track", and it plays through a
+Web Audio gain chain (with a compressor) at up to 300%. The file never
+leaves the device and the stream is never touched. While boost mode is
+on, changing Ang/track does not change the player — use "Exit boost
+mode" to go back to streaming.
