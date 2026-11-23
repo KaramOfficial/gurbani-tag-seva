@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Download Test</title></head>
+<body>
+<h3>Full-download test</h3>
+<pre id="out">running…</pre>
+<script>
+const out = document.getElementById('out');
+const URL1 = 'https://www.gurmatveechar.com/audios/Katha/01_Puratan_Katha/Sant_Gurbachan_Singh_%28Bhindran_wale%29/Guru_Granth_Sahib_Larivaar_Katha/Volume_01_Ang_0001-0070/01--Sant.Gurbachan.Singh.%28Bhindran.wale%29--Japuji.Sahib--Ang.1.mp3';
+function log(s){ out.textContent += '\n' + s; }
+(async () => {
+  out.textContent = 'start';
+  // 1) plain fetch (expect CORS failure)
+  try {
+    const r = await fetch(URL1);
+    const b = await r.blob();
+    log('1 plain fetch: OK type=' + r.type + ' blob=' + b.size);
+  } catch(e) { log('1 plain fetch: FAIL ' + e.message); }
+  // 2) no-cors fetch then try to read body
+  try {
+    const r = await fetch(URL1, {mode:'no-cors'});
+    log('2 no-cors fetch: type=' + r.type + ' status=' + r.status);
+    try {
+      const b = await r.blob();
+      log('2 no-cors blob size=' + b.size);
+    } catch(e) { log('2 no-cors blob: FAIL ' + e.message); }
+  } catch(e) { log('2 no-cors fetch: FAIL ' + e.message); }
+  // 3) Cache Storage: add, match, read
+  try {
+    const c = await caches.open('dltest');
+    await c.add(URL1);
+    const m = await c.match(URL1);
+    log('3 cache match: ' + (m ? ('type=' + m.type + ' status=' + m.status) : 'none'));
+    if (m) {
+      try {
+        const b = await m.blob();
+        log('3 cache blob size=' + b.size);
+        if (b.size > 100000) {
+          const u = URL.createObjectURL(b);
+          const a = new Audio();
+          a.src = u;
+          a.addEventListener('loadedmetadata', () => log('3 blob audio duration=' + a.duration.toFixed(1) + 's'), {once:true});
+          a.addEventListener('error', () => log('3 blob audio: ERROR'), {once:true});
+        }
+      } catch(e) { log('3 cache blob: FAIL ' + e.message); }
+    }
+  } catch(e) { log('3 cache: FAIL ' + e.message); }
+  log('done');
+})();
+</script>
+</body></html>
