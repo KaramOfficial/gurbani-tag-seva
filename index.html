@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Gursevak">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" href="css/katha.css">
+  <title>Gurbani Tag Seva Project — Audio Tagging Seva</title>
+</head>
+<body>
+  <h1>Gurbani Tag Seva Project</h1>
+  <h2>Audio Tagging ਸੇਵਾ: ਸ੍ਰੀ ਗੁਰੂ ਗ੍ਰੰਥ ਸਾਹਿਬ ਜੀ ਦੀ ਲੜੀਵਾਰ ਕਥਾ ਅਤੇ ਸ਼ੁਧ ਸਹਜ ਪਾਠ</h2>
+  <p><i>Copy of the ReadGurbani audio tagging tool, fixed so the Gurbani panktis load again. Data: Gursevak / readgurbani.com SGGS database (UIDs as in the original). Sehaj Paath tagging is already complete — this copy is mainly for Katha tagging.</i></p>
+  <div>
+    <label for="audioSourceSelect">Source:</label>
+    <select id="audioSourceSelect">
+      <option value="paath">Sehaj Paath</option>
+      <option value="katha" selected>Katha</option>
+    </select>
+    <label for="pageInput">Ang:</label>
+    <input type="number" id="pageInput" value="1" min="1" max="1430" />
+    <button id="loadPageBtn">Load</button>
+
+    <label for="trackSelect">Audio Track:</label>
+    <select id="trackSelect"></select>
+  </div>
+
+  <div class="audio-container">
+    <audio id="audioPlayer" controls></audio>
+    <div class="progress"></div>
+  </div>
+
+  <div id="exportContainer">
+    <button id="toggleInstructions">Show Instructions</button>
+    <div id="instructions" style="display: none;"><br>
+      <strong>Instructions: </strong><i>Read before starting</i>
+      <i>NOTE: The instructions for Sehaj Paath are similar, but there is only one tag per Tukh.</i>
+      <ol>
+        <li>Start at the lower end of your assigned Ang range. Enter the Ang number and click on the "Load" button.</li>
+        <li>The lines in the current Ang will load, along with the previous and next Angs (to cover overlap). The lines in the current Ang will be highlighted light yellow.</li>
+        <li>Select your assigned audio track number from the dropdown. If an Ang only has one track (majority of cases), the dropdown will be disabled.</li>
+        <li>Some tracks may appear in more than one Ang due to overlap. This is expected. <i>Only tag the track once.</i></li>
+        <li>The selected audio track will be loaded into the audio player.</li>
+        <li>Play the audio and listen for the first Gurbani Tukh read by the Paathi Singh.</li>
+        <li>Find the Tukh in the list. It will be somewhere in the middle, since the list includes the previous and next Angs as well. Use Ctrl+F/Cmd+F to search if needed.</li>
+        <li>Restart the audio and press the tag button next to the Tukh as soon as you hear it. The first Tukh can be tagged at 0 seconds before the audio starts playing.</li>
+        <li>Try to accurately tag it as soon as the Paathi Singh starts the Tukh.</li>
+        <li>Check the tag by rewinding the audio a few seconds before the tag. When the player hits the timestamp, the tagged row will be highlighted.</li>
+        <li>If you make a mistake, you can Undo the last tag.</li>
+        <li>Once you check that the tag is accurate, move on and listen for the next Tukh. Don't skip ahead.</li>
+        <li>Sometimes the Pangti is repeated multiple times, either by itself or with the whole Shabad/Pauri. <i>Tag the Tukh every time you hear it.</i> Each Tukh can have multiple timestamps.</li>
+        <li>Tag every Tukh in the track. Leave the other Tukhs blank.</li>
+        <li>Once this is done, click on the "Export Tagged" and "Export Flat" buttons to download the data.</li>
+        <li>Once your assigned Angs have been completed, share the files with a sevadaar and open a Github PR if you have access (ask for instructions).</li>
+      </ol>
+    </div>
+
+    <button id="exportTagged">Export Tagged</button>
+    <button id="exportFlat">Export Flat</button>
+    <button id="uploadTagsButton">Import Flat</button>
+    <input type="file" id="uploadTags" accept=".csv" style="display: none;" />
+  </div>
+
+  <table id="linesTable">
+    <thead>
+      <tr>
+        <th>UID</th>
+        <th>Gurbani</th>
+        <th>Actions</th>
+        <th>Raw Timestamp</th>
+        <th>H:M:S Timestamp</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="js/katha.js"></script>
+  <script>
+    const toggleBtn = document.getElementById('toggleInstructions');
+    const instructionsDiv = document.getElementById('instructions');
+    toggleBtn.addEventListener('click', () => {
+      const isHidden = instructionsDiv.style.display === 'none';
+      instructionsDiv.style.display = isHidden ? 'block' : 'none';
+      toggleBtn.textContent = isHidden ? 'Hide Instructions' : 'Show Instructions';
+    });
+    document.getElementById('uploadTagsButton').addEventListener('click', () => {
+      document.getElementById('uploadTags').click();
+    });
+    // Load Ang 1 (Katha by default) on open
+    window.addEventListener('DOMContentLoaded', () => {
+      if (typeof loadPage === 'function') loadPage(1);
+    });
+  </script>
+</body>
+</html>

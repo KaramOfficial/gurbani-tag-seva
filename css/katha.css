@@ -1,0 +1,189 @@
+@font-face {
+  font-family: AnmolUniBani;
+  src: url("../fonts/AnmolUniBani.ttf");
+}
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  background-color: #f7f7f7;
+  color: #333;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-family: Mukta Mahee;
+}
+
+#exportContainer {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+#toggleInstructions {
+  color: #333;
+  background-color: rgb(255, 170, 0);
+}
+
+#tagTimestamp {
+  background-color: rgba(0, 140, 50, 0.7);
+}
+
+#removeTimestamp {
+  background-color: rgba(140, 0, 0, 0.4);
+}
+
+#instructions {
+  background: #f0f0f0;
+  padding: 1em;
+  border-radius: 8px;
+  margin-top: 1em;
+}
+
+.audio-container {
+  position: sticky;
+  top: 0;
+  background: #f7f7f7;
+  z-index: 100;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.controls label {
+  font-weight: bold;
+}
+
+input[type="number"],
+select {
+  padding: 5px 10px;
+  font-size: 16px;
+  width: 80px;
+}
+
+#uploadTags {
+  display: none;
+}
+
+button {
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #288DD8;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+audio {
+  width: 100%;
+  margin: 15px 0;
+}
+
+.progress {
+  position: relative;
+  height: 20px;
+  background-color: #ddd;
+  margin-bottom: 20px;
+  border-radius: 3px;
+}
+
+.tooltip-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background-color: #288DD8;
+  border: 1px solid black;
+  box-sizing: border-box;
+}
+
+.tooltip-marker .custom-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: black;
+  color: white;
+  padding: 4px 8px;
+  font-family: Mukta Mahee;
+  font-size: 15px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.tooltip-marker:hover .custom-tooltip {
+  opacity: 1;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+tr.mainAng {
+  background-color: #fffae6;
+}
+
+tr.highlight,
+tr.mainAng.highlight {
+  background-color: rgb(255, 170, 0.1);
+}
+
+tr td:nth-child(2) {
+  font-family: AnmolUniBani;
+  font-weight: 600;
+}
+
+#trackSelect,
+#audioSourceSelect {
+  width: 150px;
+}
+
+@media (max-width: 600px) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  input[type="number"],
+  select,
+  button {
+    width: 100%;
+  }
+}
+  
+  

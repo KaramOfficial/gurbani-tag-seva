@@ -1,0 +1,44 @@
+id	uid	line	is_mainline	is_heading	shabad_id	gurmukhi	gurmukhi_ascii	ucharan_tip	extended_tip	arth
+255	xtcp	1	0	0	26	ਆਖਹਿ ਗੋਪੀ; ਤੈ ਗੋਵਿੰਦ ॥	AwKih gopI; qY goivMd ]			(ਤੈ) ਅਤੇ।
+256	nrat	1	0	0	26	ਆਖਹਿ ਈਸਰ; ਆਖਹਿ ਸਿਧ ॥	AwKih eIsr; AwKih isD ]			
+257	ilko	1	0	0	26	ਆਖਹਿ; ਕੇਤੇ ਕੀਤੇ ਬੁਧ ॥	AwKih; kyqy kIqy buD ]	ਬੁੱਧ।		(ਬੁੱਧ) ਬੁੱਧੀਵਾਨ, ਬੁੱਧ ਨਛੱਤਰ, ਬੋਧਾ ਅਵਤਾਰ।
+258	gp7g	1	0	0	26	ਆਖਹਿ ਦਾਨਵ; ਆਖਹਿ ਦੇਵ ॥	AwKih dwnv; AwKih dyv ]			
+259	xfw9	2	0	0	26	ਆਖਹਿ ਸੁਰਿ ਨਰ; ਮੁਨਿ ਜਨ ਸੇਵ ॥	AwKih suir nr; muin jn syv ]			ਆਪ ਜੀ ਤੋਂ ਅਪਣੇ ਸੀਸ ਕੁਰਬਾਨ ਕਰਨ ਵਾਲੇ ਅਨੇਕ (ਸੇਵ) ਸੇਵਕ।
+260	q1ew	2	0	0	26	ਕੇਤੇ ਆਖਹਿ; ਆਖਣਿ ਪਾਹਿ ॥	kyqy AwKih; AwKix pwih ]			
+261	w97z	2	0	0	26	ਕੇਤੇ ਕਹਿ ਕਹਿ; ਉਠਿ ਉਠਿ ਜਾਹਿ ॥	kyqy kih kih; auiT auiT jwih ]	ਉੱਠਿ ਉੱਠਿ।	ਕਹਿ: ਕੱਕਾ ਮੁਕਤਾ ਹਾਹੇ ਸਿਹਾਰੀ ਬੋਲੋ। ਉੱਠਿ ਉੱਠਿ: ਸਿਹਾਰੀਆਂ ਲਾਉ।	
+262	m5ub	3	0	0	26	ਏਤੇ ਕੀਤੇ; ਹੋਰਿ ਕਰੇਹਿ ॥	eyqy kIqy; hoir kryih ]	ਏੱਤੇ। ਕ-ਰੇਹਿ।	ਕ-ਰੇਹਿ: ਰਾਰੇ ਲਾਂ ਲੰਬੀ ਬੋਲ ਕੇ ਹਿ ਬੋਲੋ।	
+263	gjid	3	0	0	26	ਤਾ. ਆਖਿ ਨ ਸਕਹਿ; ਕੇਈ ਕੇਇ ॥	qw. AwiK n skih; kyeI kyie ]	ਤਾਂ। ਸਕ-ਹਿ: ਪੋਲਾ ਬੋਲੋ।	ਤਾ: ਤਾਂ ਬੋਲੋ, ਤਾ ਦਾ ਅਰਥ ਸੇਕ ਹੈ।	
+264	xwa7	3	0	0	26	ਜੇਵਡੁ ਭਾਵੈ; ਤੇਵਡੁ ਹੋਇ ॥	jyvfu BwvY; qyvfu hoie ]	ਜੇਵੱਡੁ। ਤੇਵੱਡੁ।		
+265	h4m8	3	0	0	26	ਨਾਨਕ ਜਾਣੈ; ਸਾਚਾ ਸੋਇ ॥	nwnk jwxY; swcw soie ]			
+266	cht8	4	0	0	26	ਜੇ ਕੋ ਆਖੈ; ਬੋਲੁ ਵਿਗਾੜੁ ॥	jy ko AwKY; bolu ivgwVu ]			
+267	lajd	4	0	0	26	ਤਾ ਲਿਖੀਐ; ਸਿਰਿ ਗਾਵਾਰਾ ਗਾਵਾਰੁ ॥੨੬॥	qw ilKIAY; isir gwvwrw gwvwru ]26]	ਤਾਂ। ਗਾ-ਵਾ-ਰਾਂ।		(ਸਿਰਿ) ਸ਼੍ਰੋਮਣੀ। (ਗਾ-ਵਾ-ਰਾਂ) ਮੂਰਖ।
+268	a89z	4	0	0	27	ਸੋ ਦਰੁ ਕੇਹਾ, ਸੋ ਘਰੁ ਕੇਹਾ; ਜਿਤੁ ਬਹਿ ਸਰਬ ਸਮਾਲੇ ॥	so dru kyhw, so Gru kyhw; ijqu bih srb smwly ]			
+269	vod9	5	0	0	27	ਵਾਜੇ ਨਾਦ ਅਨੇਕ ਅਸੰਖਾ; ਕੇਤੇ ਵਾਵਣਹਾਰੇ ॥	vwjy nwd Anyk AsMKw; kyqy vwvxhwry ]	ਵਾਵਣ-ਹਾਰੇ।		(ਵਾਵਣ-ਹਾਰੇ) ਵਜਾਉਣ ਵਾਲੇ।
+270	weo8	5	0	0	27	ਕੇਤੇ. ਰਾਗ ਪਰੀ ਸਿਉ ਕਹੀਅਨਿ; ਕੇਤੇ ਗਾਵਣਹਾਰੇ ॥	kyqy. rwg prI isau khIAin; kyqy gwvxhwry ]			
+271	ws03	6	0	0	27	ਗਾਵਹਿ ਤੁਹਨੋ ਪਉਣੁ ਪਾਣੀ ਬੈਸੰਤਰੁ; ਗਾਵੈ ਰਾਜਾਧਰਮੁ ਦੁਆਰੇ ॥	gwvih quhno pauxu pwxI bYsMqru; gwvY rwjwDrmu duAwry ]	ਗਾਵ-ਹਿ।	ਗਾਵ-ਹਿ: ਵਾਵੇ ਦੁਲਾਵਾਂ ਨਹੀਂ ਲਾਉਣੀਆਂ, ਮੁਕਤਾ ਬੋਲੋ, ਹਾਹੇ ਸਿਹਾਰੀ ਲਾਉ। ਪਉਣੁ ਦੇ ਣਾਣੇ ਔਂਕੜ ਲਾਉ।	
+272	i75o	6	0	0	27	ਗਾਵਹਿ ਚਿਤੁ ਗੁਪਤੁ, ਲਿਖਿ ਜਾਣਹਿ; ਲਿਖਿ ਲਿਖਿ ਧਰਮੁ ਵੀਚਾਰੇ ॥	gwvih icqu gupqu, iliK jwxih; iliK iliK Drmu vIcwry ]	ਚਿੱਤੁ। ਗੁਪਤੁ: ਪੋਲਾ ਬੋਲੋ।	ਚਿੱਤੁ, ਗੁਪਤੁ: ਤੱਤੇ ਔਂਕੜ ਲਾਉ, ਪੱਪਾ ਮੁਕਤਾ ਹੈ।	
+273	elln	7	0	0	27	ਗਾਵਹਿ ਈਸਰੁ ਬਰਮਾ ਦੇਵੀ; ਸੋਹਨਿ ਸਦਾ ਸਵਾਰੇ ॥	gwvih eIsru brmw dyvI; sohin sdw svwry ]			(ਸੋਹਨਿ) ਸੋਭਦੇ ਹਨ।
+274	dtyk	7	0	0	27	ਗਾਵਹਿ ਇੰਦ, ਇਦਾਸਣਿ ਬੈਠੇ; ਦੇਵਤਿਆ ਦਰਿ ਨਾਲੇ ॥	gwvih ieMd, iedwsix bYTy; dyviqAw dir nwly ]	ਨਾੱਲੇ। ਦੇਵਤਿਆਂ।		(ਦਰਿ) ਸਭਾ, ਮੰਡਲੀ।
+275	ar0g	8	0	0	27	ਗਾਵਹਿ ਸਿਧ. ਸਮਾਧੀ ਅੰਦਰਿ; ਗਾਵਨਿ ਸਾਧ ਵਿਚਾਰੇ ॥	gwvih isD. smwDI AMdir; gwvin swD ivcwry ]			
+276	uspf	8	0	0	27	ਗਾਵਨਿ ਜਤੀ ਸਤੀ ਸੰਤੋਖੀ; ਗਾਵਹਿ ਵੀਰ ਕਰਾਰੇ ॥	gwvin jqI sqI sMqoKI; gwvih vIr krwry ]	ਜਤੀ ਸਤੀ: ਪੋਲੇ ਬੋਲੋ।		(ਕਰਾਰੇ) ਤਕੜੇ (ਵੀਰ) ਸੂਰਮੇ।
+277	ibfc	9	0	0	27	ਗਾਵਨਿ ਪੰਡਿਤ ਪੜਨਿ ਰਖੀਸਰ; ਜੁਗੁ ਜੁਗੁ ਵੇਦਾ ਨਾਲੇ ॥	gwvin pMifq pVin rKIsr; jugu jugu vydw nwly ]	ਪੜੑਨਿ। ਜੁੱਗੁ ਜੁੱਗੁ। ਵੇਦਾਂ। ਨਾੱਲੇ।		(ਰਖੀਸਰ) ਵੱਡੇ ਰਿਖੀ।
+278	k65o	9	0	0	27	ਗਾਵਹਿ ਮੋਹਣੀਆ ਮਨੁ ਮੋਹਨਿ; ਸੁਰਗਾ ਮਛ ਪਇਆਲੇ ॥	gwvih mohxIAw mnu mohin; surgw mC pieAwly ]	ਮੋਹਣੀਆਂ। ਸੁਰਗਾਂ। ਮੱਛ। ਪ-ਇਆਲੇ।	ਪ-ਇਆਲੇ ਪੱਪਾ ਮੁਕਤਾ ਬੋਲੋ, ਪੱਪੇ ਸਿਹਾਰੀ ਨਹੀਂ ਲਾਉਣੀ।	(ਮੱਛ) ਮਾਤ ਲੋਕ। (ਪਇਆਲੇ) ਪਤਾਲ ਲੋਕ।
+279	e2c8	10	0	0	27	ਗਾਵਨਿ ਰਤਨ ਉਪਾਏ ਤੇਰੇ; ਅਠਸਠਿ ਤੀਰਥ ਨਾਲੇ ॥	gwvin rqn aupwey qyry; ATsiT qIrQ nwly ]			
+280	ooin	10	0	0	27	ਗਾਵਹਿ ਜੋਧ ਮਹਾਬਲ ਸੂਰਾ; ਗਾਵਹਿ ਖਾਣੀ ਚਾਰੇ ॥	gwvih joD mhwbl sUrw; gwvih KwxI cwry ]	ਮਹਾਂ-ਬਲ: ਪੋਲਾ ਬੋਲੋ।		
+281	xlns	11	0	0	27	ਗਾਵਹਿ ਖੰਡ ਮੰਡਲ ਵਰਭੰਡਾ; ਕਰਿ ਕਰਿ ਰਖੇ ਧਾਰੇ ॥	gwvih KMf mMfl vrBMfw; kir kir rKy Dwry ]	ਵਰਭੰਡਾਂ।		
+282	ahy8	11	0	0	27	ਸੇਈ ਤੁਧੁਨੋ ਗਾਵਹਿ, ਜੋ ਤੁਧੁ ਭਾਵਨਿ; ਰਤੇ ਤੇਰੇ ਭਗਤ ਰਸਾਲੇ ॥	syeI quDuno gwvih, jo quDu Bwvin; rqy qyry Bgq rswly ]	ਤੁਧੁ-ਨੋ। ਰੱਤੇ।	ਤੁਧੁ-ਨੋ: ਧੱਦੇ ਔਂਕੜ ਲਾਓ।	(ਰਸਾਲੇ) ਪ੍ਰੇਮ ਰਸ ਦੇ ਘਰ।
+283	tl2o	12	0	0	27	ਹੋਰਿ ਕੇਤੇ ਗਾਵਨਿ, ਸੇ. ਮੈ ਚਿਤਿ ਨ ਆਵਨਿ; ਨਾਨਕੁ. ਕਿਆ ਵੀਚਾਰੇ ॥	hoir kyqy gwvin, sy. mY iciq n Awvin; nwnku. ikAw vIcwry ]	ਚਿੱਤਿ।	ਚਿੱਤਿ: ਤੱਤੇ ਸਿਹਾਰੀ ਬੋਲੋ।	
+284	fnsx	13	0	0	27	ਸੋਈ ਸੋਈ ਸਦਾ ਸਚੁ ਸਾਹਿਬੁ; ਸਾਚਾ ਸਾਚੀ ਨਾਈ ॥	soeI soeI sdw scu swihbu; swcw swcI nweI ]			(ਨਾਈ) ਵਡਿਆਈ।
+285	x1kj	13	0	0	27	ਹੈ ਭੀ ਹੋਸੀ, ਜਾਇ ਨ ਜਾਸੀ; ਰਚਨਾ ਜਿਨਿ ਰਚਾਈ ॥	hY BI hosI, jwie n jwsI; rcnw ijin rcweI ]			
+286	iat7	14	0	0	27	ਰੰਗੀ ਰੰਗੀ ਭਾਤੀ, ਕਰਿ ਕਰਿ ਜਿਨਸੀ; ਮਾਇਆ ਜਿਨਿ ਉਪਾਈ ॥	rMgI rMgI BwqI, kir kir ijnsI; mwieAw ijin aupweI ]	ਰੰਗੀਂ। ਰੰਗੀਂ। ਭਾਂਤੀ।		(ਰੰਗੀਂ ਰੰਗੀਂ) ਰੰਗਾਂ ਰੰਗਾਂ ਦੀ। (ਭਾਂਤੀ) ਕਈ ਤਰਾਂ ਦੀ। (ਜਿਨਸੀ) ਕਿਸਮਾਂ ਜਾਤਾਂ ਦੀ।
+287	cnum	14	0	0	27	ਕਰਿ ਕਰਿ ਵੇਖੈ. ਕੀਤਾ ਆਪਣਾ; ਜਿਵ ਤਿਸ ਦੀ ਵਡਿਆਈ ॥	kir kir vyKY. kIqw Awpxw; ijv iqs dI vifAweI ]			
+288	vg39	15	0	0	27	ਜੋ ਤਿਸੁ ਭਾਵੈ. ਸੋਈ ਕਰਸੀ; ਹੁਕਮੁ. ਨ ਕਰਣਾ ਜਾਈ ॥	jo iqsu BwvY. soeI krsI; hukmu. n krxw jweI ]			
+289	pgjv	15	0	0	27	ਸੋ ਪਾਤਿਸਾਹੁ. ਸਾਹਾ ਪਾਤਿਸਾਹਿਬੁ; ਨਾਨਕ. ਰਹਣੁ ਰਜਾਈ ॥੨੭॥	so pwiqswhu. swhw pwiqswihbu; nwnk. rhxu rjweI ]27]	ਸਾਹਾਂ		
+290	khjf	16	0	0	28	ਮੁੰਦਾ ਸੰਤੋਖੁ, ਸਰਮੁ ਪਤੁ ਝੋਲੀ; ਧਿਆਨ ਕੀ. ਕਰਹਿ ਬਿਭੂਤਿ ॥	muMdw sMqoKu, srmu pqu JolI; iDAwn kI. krih ibBUiq ]			(ਮੁੰਦਾ) ਮੁੰਦ੍ਰਾਂ। (ਸਰਮੁ) ਮਿਹਨਤ, ਉੱਦਮ, ਲੱਜਾ। (ਪਤੁ) ਪਾਤ੍ਰ, ਖੱਪਰ। (ਬਿਭੂਤਿ) ਸੁਆਹ।
+291	asi2	16	0	0	28	ਖਿੰਥਾ, ਕਾਲੁ ਕੁਆਰੀ ਕਾਇਆ; ਜੁਗਤਿ ਡੰਡਾ ਪਰਤੀਤਿ ॥	iKMQw, kwlu kuAwrI kwieAw; jugiq fMfw prqIiq ]	ਕਾਂਇਆਂ।		(ਖਿੰਥਾ) ਖ਼ਫਨੀ। (ਕਾਂਇਆਂ) ਦੇਹ।
+292	fxaj	17	0	0	28	ਆਈ ਪੰਥੀ ਸਗਲ ਜਮਾਤੀ; ਮਨਿ ਜੀਤੈ ਜਗੁ ਜੀਤੁ ॥	AweI pMQI sgl jmwqI; min jIqY jgu jIqu ]	ਜੱਗੁ।		(ਆਈ) ਜੋਗੀਆਂ ਦਾ ਸਭ ਤੋਂ ਉੱਚਾ ਫਿਰਕਾ, (ਪੰਥੀ) ਪੰਥ ਵਾਲਾ। (ਜਮਾਤੀ) ਬਰਾਬਰ, ਇੱਕੋ ਜਮਾਤ ਦੇ।
+293	ffqe	17	0	0	28	ਆਦੇਸੁ; ਤਿਸੈ ਆਦੇਸੁ ॥	Awdysu; iqsY Awdysu ]	ਆ-ਦੇਸੁ।		(ਆ-ਦੇਸੁ) ਨਮਸਕਾਰ।
+294	v9pd	17	0	0	28	ਆਦਿ ਅਨੀਲੁ. ਅਨਾਦਿ ਅਨਾਹਤਿ; ਜੁਗੁ ਜੁਗੁ ਏਕੋ ਵੇਸੁ ॥੨੮॥	Awid AnIlu. Anwid Anwhiq; jugu jugu eyko vysu ]28]	ਅਨੀ-ਲੁ। ਅਨਾ-ਹਤਿ। ਜੁੱਗੁ, ਜੁੱਗੁ।		(ਅਨੀ-ਲੁ) ਸ਼ੁਧ ਸਰੂਪ। (ਅਨਾਦਿ) ਆਦਿ ਰਹਿਤ। (ਅਨਾ-ਹਤਿ) ਨਾਸ ਰਹਿਤ। (ਵੇਸੁ) ਸਰੂਪ।
+295	tf66	18	0	0	29	ਭੁਗਤਿ ਗਿਆਨੁ, ਦਇਆ ਭੰਡਾਰਣਿ; ਘਟਿ ਘਟਿ ਵਾਜਹਿ ਨਾਦ ॥	Bugiq igAwnu, dieAw BMfwrix; Git Git vwjih nwd ]	ਭੁਗ-ਤਿ। ਘਟਿ ਘਟਿ: ਪੋਲੇ ਬੋਲੋ। ਵਾੱਜਹਿ: ਮਿਲਵਾ ਇੱਕਠਾ ਬੋਲੋ।		(ਭੁਗ-ਤਿ) ਭੋਜਨ, ਚੂਰਮਾ। (ਭੰਡਾਰਣਿ) ਭੰਡਾਰਾ ਵਰਤਾਉਣ ਵਾਲੀ।
+296	kmv8	19	0	0	29	ਆਪਿ ਨਾਥੁ, ਨਾਥੀ ਸਭ ਜਾ ਕੀ; ਰਿਧਿ ਸਿਧਿ ਅਵਰਾ ਸਾਦ ॥	Awip nwQu, nwQI sB jw kI; iriD isiD Avrw swd ]	ਨਾੱਥੀ। ਰਿੱਧਿ। ਸਿੱਧਿ।		(ਨਾਥੁ) ਮਾਲਕ, ਜੋਗੀਆਂ ਦਾ ਗੁਰੂ। (ਨਾੱਥੀ) ਨੱਥੀ ਹੋਈ, ਵੱਸ ਚ।
+297	ljqn	19	0	0	29	ਸੰਜੋਗੁ ਵਿਜੋਗੁ ਦੁਇ, ਕਾਰ ਚਲਾਵਹਿ; ਲੇਖੇ ਆਵਹਿ ਭਾਗ ॥	sMjogu ivjogu duie, kwr clwvih; lyKy Awvih Bwg ]	ਦੁਇ: ਈੜੀ ਸਿਹਾਰੀ ਸੰਕੋਚ ਕੇ ਬੋਲੋ।		(ਸੰਜੋਗੁ) ਮੇਲ। (ਵਿਜੋਗੁ) ਵਿਛੋੜਾ।
