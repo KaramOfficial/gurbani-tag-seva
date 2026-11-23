@@ -401,26 +401,81 @@ function buildBoostChain() {
 async function applyBoost() {
   const pct = parseInt(boostSlider.value, 10);
   boostLabel.textContent = `${pct}%`;
-  if (!localBoostMode) {
-    if (pct > 100) {
-      setBoostStatus('Boost layi pehle: (1) player de ⋮ menu ton eh track Download karo, (2) "Load downloaded track" button naal oh file select karo. Phir boost lag jayega — file tuhade phone te hi rehndi hai, stream nu kujh nahi hunda.');
-      boostSlider.value = 100;
-      boostLabel.textContent = '100%';
-    } else {
-      setBoostStatus('');
-    }
+  if (localBoostMode) {
+    if (boostCtx && boostCtx.state === 'suspended') await boostCtx.resume();
+    if (boostGain) boostGain.gain.value = pct / 100;
+    setBoostStatus(pct > 100 ? `Boost active: ${pct}% (local file)` : 'Local file loaded — boost 100% (normal)');
     return;
   }
-  if (boostCtx && boostCtx.state === 'suspended') await boostCtx.resume();
-  if (boostGain) boostGain.gain.value = pct / 100;
-  setBoostStatus(pct > 100 ? `Boost active: ${pct}% (local file)` : 'Local file loaded — boost 100% (normal)');
+  if (pct <= 100) { setBoostStatus(''); return; }
+  // MEGA-style: download the FULL track inside the browser (nothing lands
+  // in the Downloads folder, the stream site is never touched by the
+  // player), then play the local copy through the boost chain.
+  if (boostBusy || !currentAudioUrl) return;
+  boostBusy = true;
+  try {
+    const blob = await downloadTrackInBrowser(currentAudioUrl);
+    loadLocalTrackBlob(blob, 'downloaded track');
+    if (boostGain) boostGain.gain.value = pct / 100;
+    setBoostStatus(`Boost active: ${pct}% — track browser vich hi download ho gaya, hun local play ho reha hai.`);
+  } catch (e) {
+    boostSlider.value = 100;
+    boostLabel.textContent = '100%';
+    setBoostStatus('In-browser download fail ho gaya (' + e.message + '). Dooja tareeka: player de ⋮ menu ton track Download karke "Load downloaded track" naal file select karo — boost phir vi lag jayega.');
+  }
+  boostBusy = false;
 }
 
-function loadLocalTrackFile(file) {
-  if (!file) return;
+let boostBusy = false;
+
+// Full-track download that stays inside the browser. The audio hosts send
+// no CORS headers, so the file is fetched through a CORS relay
+// (api.cors.lol) purely as a download pipe — the relay only sees a file
+// request, the audio stream/player is untouched. Downloaded tracks are
+// kept in the browser's Cache Storage so the same track never downloads
+// twice.
+async function downloadTrackInBrowser(url) {
+  const cacheName = 'tagseva-boost-v1';
+  try {
+    const cache = await caches.open(cacheName);
+    const hit = await cache.match(url);
+    if (hit) {
+      const b = await hit.blob();
+      if (b.size > 50000) { setBoostStatus('Track cache vicho mil gaya — boost lag reha hai…'); return b; }
+    }
+  } catch (e) { /* cache unavailable — download fresh */ }
+  setBoostStatus('Track browser vich download ho reha hai… 0%');
+  const resp = await fetch('https://api.cors.lol/?url=' + encodeURIComponent(url));
+  if (!resp.ok) throw new Error('relay HTTP ' + resp.status);
+  const total = parseInt(resp.headers.get('content-length') || '0', 10);
+  let blob;
+  if (resp.body && total > 0) {
+    const reader = resp.body.getReader();
+    const chunks = [];
+    let got = 0;
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value);
+      got += value.length;
+      setBoostStatus(`Track browser vich download ho reha hai… ${Math.round(got / total * 100)}%`);
+    }
+    blob = new Blob(chunks, { type: 'audio/mpeg' });
+  } else {
+    blob = await resp.blob();
+  }
+  if (!blob || blob.size < 50000) throw new Error('file puri nahi aayi');
+  try {
+    const cache = await caches.open(cacheName);
+    await cache.put(url, new Response(blob, { headers: { 'Content-Type': 'audio/mpeg' } }));
+  } catch (e) { /* caching is a bonus, not required */ }
+  return blob;
+}
+
+function loadLocalTrackBlob(blob, label) {
   const wasPlaying = !audioPlayer.paused;
   const resumeAt = audioPlayer.currentTime || 0;
-  const blobUrl = URL.createObjectURL(file);
+  const blobUrl = URL.createObjectURL(blob);
   // Build the gain chain ONLY while a local (blob) file is the source —
   // a blob is same-origin, so Web Audio can boost it safely.
   audioPlayer.src = blobUrl;
@@ -432,11 +487,17 @@ function loadLocalTrackFile(file) {
   localBoostMode = true;
   if (boostExitBtn) boostExitBtn.style.display = '';
   audioPlayer.addEventListener('loadedmetadata', () => {
-    try { audioPlayer.currentTime = resumeAt; } catch (e) {}
-    applyBoost();
+    try { if (resumeAt > 0) audioPlayer.currentTime = resumeAt; } catch (e) {}
+    const pct = parseInt(boostSlider.value, 10);
+    if (boostGain) boostGain.gain.value = pct / 100;
     if (wasPlaying) audioPlayer.play().catch(() => {});
   }, { once: true });
-  setBoostStatus(`Local file loaded: ${file.name} — hun slider naal boost karo.`);
+  setBoostStatus(`Local track ready (${label}) — boost hun lag sakda hai.`);
+}
+
+function loadLocalTrackFile(file) {
+  if (!file) return;
+  loadLocalTrackBlob(file, file.name);
 }
 
 if (boostSlider) {
