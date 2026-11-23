@@ -187,3 +187,13 @@ tr td:nth-child(2) {
 }
   
   
+.boost-controls {
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.boost-controls input[type="range"] { flex: 1; min-width: 140px; }
+#boostLabel { font-weight: bold; min-width: 44px; }
+#boostStatus { flex-basis: 100%; color: #555; }

@@ -29,6 +29,13 @@
 
   <div class="audio-container">
     <audio id="audioPlayer" controls></audio>
+    <div class="boost-controls">
+      <label for="boostSlider">🔊 Volume Boost:</label>
+      <input type="range" id="boostSlider" min="100" max="300" step="5" value="100" />
+      <span id="boostLabel">100%</span>
+      <button id="boostReset" type="button">Reset</button>
+      <div id="boostStatus" style="font-size: 13px; margin-top: 4px;"></div>
+    </div>
     <div class="progress"></div>
   </div>
 

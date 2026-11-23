@@ -178,7 +178,8 @@ function loadKathaAudio(data) {
   currentTrackId = trackId;
   const base_url = 'https://www.gurmatveechar.com/audios';
   const path = '/Katha/01_Puratan_Katha/Sant_Gurbachan_Singh_%28Bhindran_wale%29/Guru_Granth_Sahib_Larivaar_Katha/';
-  audioPlayer.src = `${base_url}${path}${endpoint}.mp3`;
+  currentAudioUrl = `${base_url}${path}${endpoint}.mp3`;
+  audioPlayer.src = currentAudioUrl;
   audioPlayer.load();
 }
 
@@ -187,7 +188,8 @@ function loadSehajPaathAudio() {
   const ang = String(currentAng).padStart(4, '0');
   const base_url = 'https://media.gursevak.com/media/';
   const path = 'Sehaj_Paath_Pagewise/Sehaj_Paath_16kbps/';
-  audioPlayer.src = `${base_url}${path}${ang}.mp3`;
+  currentAudioUrl = `${base_url}${path}${ang}.mp3`;
+  audioPlayer.src = currentAudioUrl;
   audioPlayer.load();
 }
 
@@ -342,3 +344,143 @@ document.getElementById('uploadTags').addEventListener('change', async (event) =
 
 exportTaggedBtn.onclick = exportTagged;
 exportFlatBtn.onclick = exportFlat;
+
+// ---------- Volume Booster (VLC style, 100%–300%) ----------
+// Web Audio gain can push volume past 100%, BUT a cross-origin audio
+// stream without CORS permission is silently zeroed by the browser when
+// routed through Web Audio. So before touching the main player, we PROBE
+// the current track with a throwaway element + analyser. Only if real
+// signal comes through do we route the main player through the gain
+// chain. The main player's normal audio can therefore never be silenced
+// by the booster.
+let currentAudioUrl = '';
+let boostCtx = null;
+let boostGain = null;
+let boostActive = false;
+let boostProbeResult = null; // null = not probed, true/false per host
+let boostProbeHost = '';
+
+const boostSlider = document.getElementById('boostSlider');
+const boostLabel = document.getElementById('boostLabel');
+const boostStatus = document.getElementById('boostStatus');
+const boostReset = document.getElementById('boostReset');
+
+function setBoostStatus(msg) { if (boostStatus) boostStatus.textContent = msg; }
+
+async function probeBoostable(url) {
+  const host = new URL(url).host;
+  if (boostProbeResult !== null && boostProbeHost === host) return boostProbeResult;
+  boostProbeHost = host;
+  boostProbeResult = await new Promise(resolve => {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) { resolve(false); return; }
+    const ctx = new AC();
+    const el = new Audio();
+    el.preload = 'auto';
+    el.src = url;
+    let srcNode;
+    try {
+      srcNode = ctx.createMediaElementSource(el);
+    } catch (e) { ctx.close(); resolve(false); return; }
+    const analyser = ctx.createAnalyser();
+    analyser.fftSize = 2048;
+    const mute = ctx.createGain();
+    mute.gain.value = 0;
+    srcNode.connect(analyser);
+    analyser.connect(mute);
+    mute.connect(ctx.destination);
+    const buf = new Float32Array(analyser.fftSize);
+    let maxPeak = 0;
+    let samples = 0;
+    const timer = setInterval(() => {
+      analyser.getFloatTimeDomainData(buf);
+      for (let i = 0; i < buf.length; i++) {
+        const v = Math.abs(buf[i]);
+        if (v > maxPeak) maxPeak = v;
+      }
+      samples++;
+      if (samples >= 12) { // ~3 seconds of signal checks
+        clearInterval(timer);
+        el.pause();
+        ctx.close().catch(() => {});
+        resolve(maxPeak > 0.001);
+      }
+    }, 250);
+    el.addEventListener('loadedmetadata', () => {
+      try { el.currentTime = Math.min(30, (el.duration || 60) / 3); } catch (e) {}
+      el.play().catch(() => {});
+    }, { once: true });
+    el.addEventListener('error', () => {
+      clearInterval(timer);
+      ctx.close().catch(() => {});
+      resolve(false);
+    }, { once: true });
+    setTimeout(() => { // absolute cap
+      clearInterval(timer);
+      try { el.pause(); ctx.close(); } catch (e) {}
+      resolve(maxPeak > 0.001);
+    }, 9000);
+  });
+  return boostProbeResult;
+}
+
+function enableBoostChain() {
+  if (boostActive) return true;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return false;
+  try {
+    boostCtx = new AC();
+    const srcNode = boostCtx.createMediaElementSource(audioPlayer);
+    boostGain = boostCtx.createGain();
+    const comp = boostCtx.createDynamicsCompressor();
+    comp.threshold.value = -18;
+    comp.ratio.value = 8;
+    srcNode.connect(boostGain);
+    boostGain.connect(comp);
+    comp.connect(boostCtx.destination);
+    boostActive = true;
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+let boostBusy = false;
+async function applyBoost() {
+  const pct = parseInt(boostSlider.value, 10);
+  boostLabel.textContent = `${pct}%`;
+  if (pct <= 100) {
+    if (boostActive && boostGain) boostGain.gain.value = 1;
+    if (!boostActive) setBoostStatus('');
+    else setBoostStatus('Boost: 100% (normal)');
+    return;
+  }
+  if (boostActive) {
+    if (boostCtx.state === 'suspended') await boostCtx.resume();
+    boostGain.gain.value = pct / 100;
+    setBoostStatus(`Boost active: ${pct}%`);
+    return;
+  }
+  if (boostBusy || !currentAudioUrl) return;
+  boostBusy = true;
+  setBoostStatus('Checking if this audio can be boosted…');
+  const ok = await probeBoostable(currentAudioUrl);
+  boostBusy = false;
+  if (ok && enableBoostChain()) {
+    if (boostCtx.state === 'suspended') await boostCtx.resume();
+    boostGain.gain.value = pct / 100;
+    setBoostStatus(`Boost active: ${pct}%`);
+  } else {
+    boostSlider.value = 100;
+    boostLabel.textContent = '100%';
+    setBoostStatus('Boost blocked: this audio site (gurmatveechar / gursevak) does not give the browser permission to boost its stream — normal volume only. A small proxy is needed to unlock boost for these tracks.');
+  }
+}
+
+if (boostSlider) {
+  boostSlider.addEventListener('input', applyBoost);
+  boostReset.addEventListener('click', () => {
+    boostSlider.value = 100;
+    applyBoost();
+  });
+}
